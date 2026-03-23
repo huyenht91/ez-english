@@ -156,9 +156,10 @@ export default function StaffCoursesPage() {
                       <button key={ic} type="button"
                         onClick={() => update(course.key, 'icon', ic)}
                         className={`w-9 h-9 rounded-lg text-xl flex items-center justify-center transition-all ${
-                          course.icon === ic ? 'ring-2 ring-offset-1' : 'bg-gray-50 hover:bg-orange-50'
+                          course.icon === ic ? 'ring-2 ring-offset-1 ring-orange-400 bg-orange-50' : 'bg-gray-50 hover:bg-orange-50'
                         }`}
-                        style={course.icon === ic ? { ringColor: 'var(--ez-primary)', backgroundColor: '#fff3e0' } : {}}>
+                        style={{}}>
+
                         {ic}
                       </button>
                     ))}
