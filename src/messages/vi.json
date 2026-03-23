@@ -1,0 +1,143 @@
+{
+  "nav": {
+    "home": "Trang chủ",
+    "courses": "Khóa học",
+    "ielts": "Lớp Ngữ pháp",
+    "cambridge": "Cambridge",
+    "kids": "Câu lạc bộ tiếng Anh",
+    "activities": "Tin tức",
+    "events": "Sự kiện",
+    "announcements": "Thông báo",
+    "news": "Tin tức nổi bật",
+    "hiring": "Tuyển dụng",
+    "login": "Đăng nhập",
+    "mocktest": "Bài kiểm tra thử"
+  },
+  "home": {
+    "hero": {
+      "title": "Học tiếng Anh",
+      "titleHighlight": "dễ dàng & hiệu quả",
+      "subtitle": "EZ English — Trung tâm Anh ngữ uy tín với các chương trình Ngữ pháp Cơ bản và Nâng cao, Cambridge và Hoạt động ngoại khoá hấp dẫn",
+      "cta": "Khám phá khóa học",
+      "ctaSecondary": "Làm bài kiểm tra thử"
+    },
+    "courses": {
+      "title": "Chương trình học",
+      "subtitle": "Lựa chọn khóa học phù hợp với bạn"
+    },
+    "whyUs": {
+      "title": "Tại sao chọn EZ English?",
+      "quality": "Chất lượng giảng dạy",
+      "qualityDesc": "Đội ngũ giáo viên giàu kinh nghiệm, được đào tạo bài bản",
+      "flexible": "Lịch học linh hoạt",
+      "flexibleDesc": "Nhiều ca học phù hợp với mọi lịch trình",
+      "result": "Kết quả vượt trội",
+      "resultDesc": "Học viên tự tin chinh phục các kỳ thi và đạt điểm cao ngay từ lần thi đầu tiên"
+    },
+    "events": {
+      "title": "Tin tức",
+      "viewAll": "Xem tất cả"
+    },
+    "news": {
+      "title": "Tin tức",
+      "viewAll": "Xem tất cả"
+    },
+    "contact": {
+      "title": "Liên hệ tư vấn",
+      "subtitle": "Để lại thông tin, chúng tôi sẽ liên hệ với bạn sớm nhất",
+      "name": "Họ và tên",
+      "phone": "Số điện thoại",
+      "message": "Nội dung",
+      "submit": "Gửi"
+    }
+  },
+  "courses": {
+    "title": "Chương trình học",
+    "ielts": {
+      "name": "Lớp Ngữ pháp",
+      "description": "Chương trình Ngữ pháp tiếng Anh từ cơ bản đến nâng cao, giúp học viên nắm vững nền tảng và tự tin giao tiếp"
+    },
+    "cambridge": {
+      "name": "Cambridge",
+      "description": "Chứng chỉ Cambridge quốc tế, được công nhận toàn cầu"
+    },
+    "kids": {
+      "name": "Câu lạc bộ tiếng Anh",
+      "description": "Môi trường học vui vẻ, giúp trẻ tự tin giao tiếp tiếng Anh"
+    },
+    "ageGroup": "Độ tuổi",
+    "duration": "Thời lượng",
+    "schedule": "Lịch học",
+    "fee": "Học phí",
+    "register": "Đăng ký học",
+    "contact": "Liên hệ tư vấn"
+  },
+  "schedule": {
+    "title": "Lịch học",
+    "subtitle": "Các ca học hiện tại tại EZ English",
+    "morning": "Sáng",
+    "afternoon": "Chiều",
+    "evening": "Tối"
+  },
+  "activities": {
+    "title": "Sự kiện sắp tới",
+    "events": "Sự kiện",
+    "news": "Tin tức nổi bật",
+    "upcoming": "Sắp diễn ra",
+    "readMore": "Xem thêm"
+  },
+  "hiring": {
+    "title": "Tuyển dụng",
+    "subtitle": "Gia nhập đội ngũ EZ English",
+    "apply": "Ứng tuyển",
+    "position": "Vị trí",
+    "requirement": "Yêu cầu",
+    "benefit": "Quyền lợi"
+  },
+  "about": {
+    "title": "Giới thiệu về EZ English",
+    "mission": "Sứ mệnh",
+    "vision": "Tầm nhìn",
+    "team": "Đội ngũ giảng viên"
+  },
+  "test": {
+    "title": "Bài kiểm tra phân loại",
+    "subtitle": "Làm bài kiểm tra để xác định trình độ của bạn",
+    "enterName": "Nhập tên của bạn",
+    "namePlaceholder": "Họ và tên",
+    "start": "Bắt đầu làm bài",
+    "submit": "Nộp bài",
+    "next": "Câu tiếp theo",
+    "prev": "Câu trước",
+    "result": "Kết quả của bạn",
+    "score": "Điểm số",
+    "level": "Trình độ",
+    "callToAction": "Gọi cho chúng tôi để được tư vấn thêm",
+    "correct": "Đúng",
+    "incorrect": "Sai",
+    "listen": "Nghe audio",
+    "typeAnswer": "Nhập câu trả lời"
+  },
+  "footer": {
+    "address": "Địa chỉ",
+    "phone": "Điện thoại",
+    "email": "Email",
+    "hours": "Giờ làm việc",
+    "hoursValue": "Thứ 2 – Thứ 7: 8:00 – 20:00",
+    "followUs": "Theo dõi chúng tôi",
+    "copyright": "© 2025 EZ English. All rights reserved."
+  },
+  "chatbot": {
+    "title": "Tư vấn viên EZ English",
+    "placeholder": "Nhập câu hỏi...",
+    "send": "Gửi",
+    "greeting": "Xin chào! Tôi có thể giúp gì cho bạn? 😊",
+    "fallback": "Xin lỗi, tôi chưa hiểu câu hỏi này. Bạn có thể gọi cho chúng tôi theo số để được hỗ trợ trực tiếp nhé!"
+  },
+  "dashboard": {
+    "title": "Bảng điều khiển",
+    "uploadTest": "Tải lên bài kiểm tra",
+    "manageContent": "Quản lý nội dung",
+    "logout": "Đăng xuất"
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "nav": {
+    "home": "Home",
+    "courses": "Courses",
+    "ielts": "Grammar Class",
+    "cambridge": "Cambridge",
+    "kids": "Speaking Club",
+    "activities": "News",
+    "events": "Events",
+    "announcements": "Announcements",
+    "news": "Highlights",
+    "hiring": "Hiring",
+    "login": "Login",
+    "mocktest": "Mock Test"
+  },
+  "home": {
+    "hero": {
+      "title": "Learn English",
+      "titleHighlight": "easily & effectively",
+      "subtitle": "EZ English — A trusted English center offering Basic and Advanced Grammar, Cambridge, and exciting extracurricular activities",
+      "cta": "Explore Courses",
+      "ctaSecondary": "Take a Mock Test"
+    },
+    "courses": {
+      "title": "Our Programs",
+      "subtitle": "Choose the right course for you"
+    },
+    "whyUs": {
+      "title": "Why EZ English?",
+      "quality": "Teaching Quality",
+      "qualityDesc": "Experienced, well-trained teachers dedicated to your success",
+      "flexible": "Flexible Schedule",
+      "flexibleDesc": "Multiple class sessions to fit every lifestyle",
+      "result": "Outstanding Results",
+      "resultDesc": "Students confidently ace their exams and achieve high scores on their very first attempt"
+    },
+    "events": {
+      "title": "News",
+      "viewAll": "View all"
+    },
+    "news": {
+      "title": "News",
+      "viewAll": "View all"
+    },
+    "contact": {
+      "title": "Get in Touch",
+      "subtitle": "Leave your info and we'll contact you as soon as possible",
+      "name": "Full Name",
+      "phone": "Phone Number",
+      "message": "Message",
+      "submit": "Send"
+    }
+  },
+  "courses": {
+    "title": "Our Programs",
+    "ielts": {
+      "name": "Grammar Class",
+      "description": "English grammar from beginner to advanced, building a strong foundation for confident communication"
+    },
+    "cambridge": {
+      "name": "Cambridge",
+      "description": "International Cambridge certificates recognized worldwide"
+    },
+    "kids": {
+      "name": "Kids Speaking Club",
+      "description": "A fun environment helping children speak English confidently"
+    },
+    "ageGroup": "Age Group",
+    "duration": "Duration",
+    "schedule": "Schedule",
+    "fee": "Tuition Fee",
+    "register": "Enroll Now",
+    "contact": "Contact Us"
+  },
+  "schedule": {
+    "title": "Class Schedule",
+    "subtitle": "Current sessions at EZ English",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "evening": "Evening"
+  },
+  "activities": {
+    "title": "Upcoming Events",
+    "events": "Events",
+    "news": "Highlights",
+    "upcoming": "Upcoming",
+    "readMore": "Read more"
+  },
+  "hiring": {
+    "title": "Join Our Team",
+    "subtitle": "Careers at EZ English",
+    "apply": "Apply Now",
+    "position": "Position",
+    "requirement": "Requirements",
+    "benefit": "Benefits"
+  },
+  "about": {
+    "title": "About EZ English",
+    "mission": "Our Mission",
+    "vision": "Our Vision",
+    "team": "Our Teachers"
+  },
+  "test": {
+    "title": "Placement Test",
+    "subtitle": "Take our test to identify your English level",
+    "enterName": "Enter your name",
+    "namePlaceholder": "Full Name",
+    "start": "Start Test",
+    "submit": "Submit",
+    "next": "Next",
+    "prev": "Previous",
+    "result": "Your Result",
+    "score": "Score",
+    "level": "Level",
+    "callToAction": "Call us for a free consultation",
+    "correct": "Correct",
+    "incorrect": "Incorrect",
+    "listen": "Listen to audio",
+    "typeAnswer": "Type your answer"
+  },
+  "footer": {
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "hours": "Working Hours",
+    "hoursValue": "Mon – Sat: 8:00 AM – 8:00 PM",
+    "followUs": "Follow Us",
+    "copyright": "© 2025 EZ English. All rights reserved."
+  },
+  "chatbot": {
+    "title": "EZ English Support",
+    "placeholder": "Type your question...",
+    "send": "Send",
+    "greeting": "Hello! How can I help you today? 😊",
+    "fallback": "Sorry, I didn't understand that. Please call us directly for support!"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "uploadTest": "Upload Test",
+    "manageContent": "Manage Content",
+    "logout": "Log Out"
+  }
+}
