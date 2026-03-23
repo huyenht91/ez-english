@@ -182,7 +182,10 @@ function SuperStarManager() {
                     <p className="font-semibold text-gray-800 text-sm truncate">{star.name}</p>
                     <p className="text-xs text-gray-500 truncate">{star.achievement}</p>
                   </button>
-                  <Pencil className={`w-4 h-4 transition-colors ${expanded === star.id ? 'text-orange-400' : 'text-gray-300'}`} />
+                  <button onClick={() => setExpanded(expanded === star.id ? null : star.id)}
+                    className="text-gray-300 hover:text-orange-400 transition-colors flex-shrink-0">
+                    <Pencil className={`w-4 h-4 transition-colors ${expanded === star.id ? 'text-orange-400' : ''}`} />
+                  </button>
                   <button onClick={() => handleDelete(star.id)}
                     className="text-gray-300 hover:text-red-400 transition-colors flex-shrink-0 ml-1">
                     <Trash2 className="w-4 h-4" />
