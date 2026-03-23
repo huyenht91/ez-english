@@ -366,7 +366,7 @@ function RegistrationsManager() {
           <ClipboardList className="w-5 h-5" style={{ color: 'var(--ez-primary)' }} />
           Đăng ký học thử
           {newCount > 0 && (
-            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full text-white text-xs font-bold"
+            <span className="inline-flex flex-shrink-0 items-center justify-center w-5 h-5 rounded-full text-white text-xs font-bold"
               style={{ backgroundColor: 'var(--ez-primary)' }}>
               {newCount}
             </span>
@@ -438,20 +438,36 @@ const MENU = [
 ];
 
 function Dashboard({ locale }: { locale: string }) {
+  const [newRegCount, setNewRegCount] = useState(0);
+
+  useEffect(() => {
+    const regs = JSON.parse(localStorage.getItem('ez_registrations') ?? '[]') as Registration[];
+    setNewRegCount(regs.filter((r) => r.status === 'new').length);
+  }, []);
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--ez-cream)' }}>
       {/* Header */}
-      <div className="bg-white border-b border-orange-100 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm"
+      <div className="bg-white border-b border-orange-100 px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold text-sm"
             style={{ backgroundColor: 'var(--ez-primary)' }}>
             EZ
           </div>
-          <span className="font-bold text-gray-800">EZ English — Staff Dashboard</span>
+          <span className="font-bold text-gray-800 text-sm sm:text-base truncate">EZ English — Staff Dashboard</span>
         </div>
-        <Link href={`/${locale}`} className="text-sm text-gray-500 hover:text-orange-500 transition-colors">
-          ← Về trang chủ
-        </Link>
+        <div className="flex items-center gap-3 flex-shrink-0">
+          {newRegCount > 0 && (
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-white text-xs font-bold animate-pulse"
+              style={{ backgroundColor: 'var(--ez-primary)' }}>
+              <ClipboardList className="w-3.5 h-3.5" />
+              {newRegCount} mới
+            </span>
+          )}
+          <Link href={`/${locale}`} className="text-sm text-gray-500 hover:text-orange-500 transition-colors whitespace-nowrap">
+            ← Về trang chủ
+          </Link>
+        </div>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">

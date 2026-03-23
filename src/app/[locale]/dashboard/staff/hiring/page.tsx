@@ -108,17 +108,22 @@ export default function StaffHiringPage() {
   });
   const [saved, setSaved] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
-  const savedSnapshot = useRef(JSON.stringify(INITIAL_JOBS));
 
   useEffect(() => {
-    setHasChanges(JSON.stringify(jobs) !== savedSnapshot.current);
-  }, [jobs]);
+    const stored = localStorage.getItem('ez_jobs');
+    if (stored) {
+      try { setJobs(JSON.parse(stored)); } catch {}
+    }
+  }, []);
 
-  const updateJob = (id: number, field: keyof Job, value: string | string[]) =>
+  const updateJob = (id: number, field: keyof Job, value: string | string[]) => {
     setJobs(jobs.map((j) => j.id === id ? { ...j, [field]: value } : j));
+    setHasChanges(true);
+  };
 
   const handleDelete = (id: number) => {
     setJobs(jobs.filter((j) => j.id !== id));
+    setHasChanges(true);
     if (expanded === id) setExpanded(null);
   };
 
@@ -127,10 +132,12 @@ export default function StaffHiringPage() {
     setJobs([...jobs, { id: Date.now(), ...newJob }]);
     setNewJob({ title: '', type: 'Toàn thời gian', requirements: [''], benefits: [''] });
     setAddOpen(false);
+    setHasChanges(true);
   };
 
   const handleSave = () => {
-    savedSnapshot.current = JSON.stringify(jobs);
+    localStorage.setItem('ez_jobs', JSON.stringify(jobs));
+    setHasChanges(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };

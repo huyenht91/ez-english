@@ -60,8 +60,8 @@ export default function ChatBubble() {
   return (
     <>
       {open && (
-        <div className="fixed bottom-24 right-5 z-50 w-80 max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-2xl border border-orange-100 flex flex-col overflow-hidden"
-          style={{ height: '420px' }}>
+        <div className="fixed bottom-24 right-3 sm:right-5 z-50 w-[calc(100vw-1.5rem)] sm:w-80 bg-white rounded-2xl shadow-2xl border border-orange-100 flex flex-col overflow-hidden"
+          style={{ maxHeight: 'min(420px, calc(100dvh - 140px))', height: 'min(420px, calc(100dvh - 140px))' }}>
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 text-white flex-shrink-0"
             style={{ backgroundColor: 'var(--ez-primary)' }}>
@@ -133,7 +133,7 @@ export default function ChatBubble() {
       {/* Bubble button */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-5 right-5 z-50 w-14 h-14 rounded-full text-white shadow-lg flex items-center justify-center transition-all hover:scale-110 active:scale-95"
+        className="fixed bottom-5 right-3 sm:right-5 z-50 w-14 h-14 rounded-full text-white shadow-lg flex items-center justify-center transition-all hover:scale-110 active:scale-95"
         style={{ backgroundColor: 'var(--ez-primary)' }}
         aria-label="Chat với EZ English"
       >
