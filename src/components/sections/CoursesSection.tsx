@@ -75,7 +75,7 @@ export default function CoursesSection({ locale, title, subtitle }: { locale: st
           <h2 className="text-3xl font-bold text-gray-800">{title}</h2>
           <p className="text-gray-500 mt-2">{subtitle}</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {courses.map((course, i) => {
             const { color, bg } = COLORS[i % COLORS.length];
             return (

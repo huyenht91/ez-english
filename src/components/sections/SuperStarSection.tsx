@@ -58,7 +58,8 @@ function StarCarousel({ stars }: { stars: SuperStar[] }) {
   const measureCard = useCallback(() => {
     if (!wrapperRef.current) return;
     const w = wrapperRef.current.offsetWidth;
-    setCardWidth((w - CARD_GAP * 3) / 4);
+    const cols = w < 480 ? 1 : w < 768 ? 2 : 4;
+    setCardWidth((w - CARD_GAP * (cols - 1)) / cols);
   }, []);
 
   useEffect(() => {
@@ -217,7 +218,7 @@ export default function SuperStarSection({ locale }: { locale: string }) {
         </div>
 
         {stars.length > 4 ? (
-          <div className="px-6">
+          <div className="px-6 sm:px-8">
             <StarCarousel stars={stars} />
           </div>
         ) : (

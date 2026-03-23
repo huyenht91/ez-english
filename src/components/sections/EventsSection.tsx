@@ -29,7 +29,7 @@ export default function EventsSection({ locale, title, viewAll }: { locale: stri
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
           <h2 className="text-3xl font-bold text-gray-800">{title}</h2>
           <Link href={`/${locale}/activities#events`}
             className="flex items-center gap-1 text-sm font-medium hover:gap-2 transition-all"
@@ -37,7 +37,7 @@ export default function EventsSection({ locale, title, viewAll }: { locale: stri
             {viewAll} <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {latestEvents.map((ev) => {
             const colors = TAG_COLORS[ev.tag] ?? { bg: '#FFF3EE', text: '#FF6B35' };
             const section = ev.type === 'announcement' ? 'announcements' : ev.type === 'news' ? 'news' : 'events';

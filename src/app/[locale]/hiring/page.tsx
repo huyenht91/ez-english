@@ -2,6 +2,21 @@ import { getTranslations } from 'next-intl/server';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { CheckCircle, Mail } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const isVi = locale === 'vi';
+  return {
+    title: isVi ? 'Tuyển dụng' : 'Careers',
+    description: isVi
+      ? 'EZ English tuyển dụng giáo viên tiếng Anh và nhân viên tư vấn tuyển sinh tại Hạ Long, Quảng Ninh.'
+      : 'EZ English is hiring English teachers and enrollment consultants in Ha Long, Quang Ninh.',
+    openGraph: {
+      title: isVi ? 'Tuyển dụng | EZ English' : 'Careers | EZ English',
+    },
+  };
+}
 
 const JOBS = {
   vi: [
@@ -124,7 +139,7 @@ export default async function HiringPage({ params }: { params: Promise<{ locale:
         {/* Header */}
         <section className="py-16 text-center" style={{ backgroundColor: 'var(--ez-cream)' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">{t('title')}</h1>
+            <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-4">{t('title')}</h1>
             <p className="text-gray-500 max-w-xl mx-auto">{t('subtitle')}</p>
           </div>
         </section>
@@ -135,7 +150,7 @@ export default async function HiringPage({ params }: { params: Promise<{ locale:
             {jobs.map((job) => (
               <div key={job.id} className="rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                 {/* Job header */}
-                <div className="p-6 flex items-start justify-between gap-4"
+                <div className="p-4 sm:p-6 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3"
                   style={{ backgroundColor: 'var(--ez-cream)' }}>
                   <div>
                     <h2 className="text-xl font-bold text-gray-800">{job.title}</h2>
@@ -146,7 +161,7 @@ export default async function HiringPage({ params }: { params: Promise<{ locale:
                   </div>
                   <a
                     href={`mailto:info@ezenglish.vn?subject=Apply: ${job.title}`}
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl text-white font-medium text-sm whitespace-nowrap transition-opacity hover:opacity-90"
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl text-white font-medium text-sm self-start transition-opacity hover:opacity-90"
                     style={{ backgroundColor: 'var(--ez-primary)' }}
                   >
                     <Mail className="w-4 h-4" />

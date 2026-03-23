@@ -13,8 +13,18 @@ import EventsSection from '@/components/sections/EventsSection';
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'home' });
+  const isVi = locale === 'vi';
+  const desc = isVi
+    ? 'Trung tâm Anh ngữ uy tín tại Hạ Long, Quảng Ninh. Lớp Ngữ pháp, Cambridge quốc tế, Câu lạc bộ tiếng Anh cho trẻ em. Đăng ký nhận 2 buổi học miễn phí!'
+    : 'Trusted English center in Ha Long, Quang Ninh. Grammar classes, Cambridge certificates, Kids Speaking Club. Register for 2 free trial lessons!';
   return {
     title: 'EZ English — ' + t('hero.titleHighlight'),
+    description: desc,
+    openGraph: {
+      title: 'EZ English — ' + t('hero.titleHighlight'),
+      description: desc,
+      type: 'website',
+    },
   };
 }
 

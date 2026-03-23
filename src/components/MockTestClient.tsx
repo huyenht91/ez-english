@@ -251,9 +251,9 @@ export default function MockTestClient({ locale }: { locale: string }) {
           <p className="text-white/80">{t('result')}</p>
         </div>
 
-        <div className="p-8">
+        <div className="p-4 sm:p-8">
           {/* Score */}
-          <div className="flex justify-center gap-8 mb-8">
+          <div className="flex justify-center gap-6 sm:gap-8 mb-8">
             <div className="text-center">
               <div className="text-4xl font-bold" style={{ color: 'var(--ez-secondary)' }}>{Math.round((answered / total) * 100)}%</div>
               <div className="text-sm text-gray-500 mt-1">{locale === 'vi' ? 'Tỉ lệ hoàn thành' : 'Completion'}</div>
@@ -331,7 +331,7 @@ export default function MockTestClient({ locale }: { locale: string }) {
         />
       </div>
 
-      <div className="p-8">
+      <div className="p-4 sm:p-8">
         {/* Question counter + timer */}
         <div className="flex items-center justify-between mb-6">
           <span className="text-sm text-gray-400">
@@ -405,7 +405,7 @@ export default function MockTestClient({ locale }: { locale: string }) {
         )}
 
         {/* Navigation */}
-        <div className="flex items-center justify-between mt-8">
+        <div className="flex flex-wrap items-center justify-between gap-2 mt-8">
           <button
             onClick={() => setCurrent((c) => Math.max(0, c - 1))}
             disabled={current === 0}

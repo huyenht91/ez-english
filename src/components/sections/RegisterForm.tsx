@@ -46,7 +46,7 @@ export default function RegisterForm() {
 
   return (
     <div>
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-sm border border-orange-100">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-5 sm:p-8 shadow-sm border border-orange-100">
           {/* Title */}
           <div className="text-center mb-8">
             <h2 className="text-2xl font-extrabold leading-tight" style={{ color: 'var(--ez-primary)' }}>

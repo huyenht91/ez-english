@@ -3,6 +3,22 @@ import Image from 'next/image';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { MOCK_EVENTS, TAG_COLORS } from '@/data/events';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const isVi = locale === 'vi';
+  return {
+    title: isVi ? 'Tin tức & Sự kiện' : 'News & Events',
+    description: isVi
+      ? 'Cập nhật tin tức, sự kiện và thông báo mới nhất từ EZ English Hạ Long.'
+      : 'Latest news, events and announcements from EZ English Ha Long.',
+    openGraph: {
+      title: isVi ? 'Tin tức & Sự kiện | EZ English' : 'News & Events | EZ English',
+      description: isVi ? 'Cập nhật tin tức và sự kiện mới nhất từ EZ English.' : 'Latest news and events from EZ English.',
+    },
+  };
+}
 
 export default async function ActivitiesPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -19,7 +35,7 @@ export default async function ActivitiesPage({ params }: { params: Promise<{ loc
       <main className="flex-1">
         <section className="py-16" style={{ backgroundColor: 'var(--ez-cream)' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">{t('title')}</h1>
+            <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-4">{t('title')}</h1>
           </div>
         </section>
 
@@ -36,7 +52,7 @@ export default async function ActivitiesPage({ params }: { params: Promise<{ loc
                   return (
                     <div key={ev.id} className="bg-white rounded-2xl border border-orange-100 overflow-hidden shadow-sm">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-                        <div className="relative h-72 md:h-auto bg-orange-50">
+                        <div className="relative h-52 sm:h-64 md:h-auto bg-orange-50">
                           <Image src={ev.image} alt={ev.title} fill className="object-cover" />
                         </div>
                         <div className="p-6 flex flex-col justify-center">
@@ -90,7 +106,7 @@ export default async function ActivitiesPage({ params }: { params: Promise<{ loc
                   return (
                     <div key={item.id} className="bg-white rounded-2xl border border-orange-100 overflow-hidden shadow-sm">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-                        <div className="relative h-72 md:h-auto bg-orange-50">
+                        <div className="relative h-52 sm:h-64 md:h-auto bg-orange-50">
                           <Image src={item.image} alt={item.title} fill className="object-cover" />
                         </div>
                         <div className="p-6 flex flex-col justify-center">
