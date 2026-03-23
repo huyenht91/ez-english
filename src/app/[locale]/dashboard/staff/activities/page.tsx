@@ -2,40 +2,28 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { ArrowLeft, Trash2, PlusCircle, Calendar, ImagePlus, X, Pencil, ChevronDown, ChevronUp, Check, Save } from 'lucide-react';
+import { ArrowLeft, Trash2, PlusCircle, Calendar, ImagePlus, X, Pencil, ChevronDown, ChevronUp, Check } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { MOCK_EVENTS, type NewsItem } from '@/data/events';
-
-const EZ_NEWS_KEY = 'ez_news';
+import { supabase } from '@/lib/supabase';
 
 
 export default function StaffActivitiesPage() {
   const params = useParams();
   const locale = (params?.locale as string) ?? 'vi';
   const router = useRouter();
-  const [items, setItems] = useState<NewsItem[]>(MOCK_EVENTS['vi'] ?? []);
+  const [items, setItems] = useState<NewsItem[]>([]);
 
   useEffect(() => {
-    const saved = localStorage.getItem(EZ_NEWS_KEY);
-    if (saved) {
-      try { setItems(JSON.parse(saved)); } catch {}
-    }
+    supabase.from('news').select('*').order('sort_date', { ascending: false }).then(({ data }) => {
+      if (data && data.length > 0) {
+        setItems(data.map((d) => ({ ...d, sortDate: d.sort_date, fullContent: d.full_content })) as NewsItem[]);
+      } else {
+        setItems(MOCK_EVENTS['vi'] ?? []);
+      }
+    });
   }, []);
-  const [hasChanges, setHasChanges] = useState(false);
-  const [saved, setSaved] = useState(false);
-
-  const updateItems = (updated: NewsItem[]) => {
-    setItems(updated);
-    setHasChanges(true);
-  };
-
-  const handleSave = () => {
-    localStorage.setItem(EZ_NEWS_KEY, JSON.stringify(items));
-    setHasChanges(false);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  };
 
   // New post form state
   const [type, setType] = useState('event');
@@ -64,30 +52,30 @@ export default function StaffActivitiesPage() {
     if (fileRef.current) fileRef.current.value = '';
   };
 
-  const handleAdd = (e: React.FormEvent) => {
+  const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     const d = new Date(date);
     const display = d.toLocaleDateString('vi-VN');
-    updateItems([
-      {
-        id: Date.now(),
-        type: type as 'event' | 'announcement' | 'news',
-        title,
-        date: display,
-        sortDate: date,
-        description,
-        tag: tagMap[type],
-        image: imagePreview ?? undefined,
-      },
-      ...items,
-    ]);
+    const { data } = await supabase.from('news').insert({
+      type,
+      title,
+      date: display,
+      sort_date: date,
+      description,
+      tag: tagMap[type],
+      image: imagePreview ?? null,
+    }).select().single();
+    if (data) {
+      setItems([{ ...data, sortDate: data.sort_date, fullContent: data.full_content } as NewsItem, ...items]);
+    }
     setTitle(''); setDate(''); setDescription(''); clearImage();
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 2000);
   };
 
-  const handleDelete = (id: number) => {
-    updateItems(items.filter((i) => i.id !== id));
+  const handleDelete = async (id: number) => {
+    await supabase.from('news').delete().eq('id', id);
+    setItems(items.filter((i) => i.id !== id));
     if (editingId === id) setEditingId(null);
   };
 
@@ -109,11 +97,21 @@ export default function StaffActivitiesPage() {
     if (file) setEditData({ ...editData, imagePreview: URL.createObjectURL(file) });
   };
 
-  const saveEdit = (id: number) => {
+  const saveEdit = async (id: number) => {
     const d = editData.date ? new Date(editData.date) : null;
     const display = d ? d.toLocaleDateString('vi-VN') : '';
     const newType = editData.type as 'event' | 'announcement' | 'news';
-    updateItems(items.map((item) =>
+    const updates = {
+      title: editData.title,
+      type: newType,
+      date: display || undefined,
+      sort_date: editData.date,
+      description: editData.description,
+      tag: tagMap[editData.type ?? typeFromTag[items.find(i => i.id === id)?.tag ?? '']] ?? undefined,
+      image: editData.imagePreview ?? null,
+    };
+    await supabase.from('news').update(updates).eq('id', id);
+    setItems(items.map((item) =>
       item.id === id ? {
         ...item,
         title: editData.title ?? item.title,
@@ -142,15 +140,7 @@ export default function StaffActivitiesPage() {
           <Link href={`/${locale}`} className="text-sm text-gray-500 hover:text-orange-500 transition-colors">
             ← Về trang chủ
           </Link>
-          <button
-            onClick={handleSave}
-            disabled={!hasChanges}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
-            style={{ backgroundColor: 'var(--ez-primary)' }}
-          >
-            <Save className="w-4 h-4" />
-            {saved ? '✅ Đã lưu!' : 'Lưu thay đổi'}
-          </button>
+          <span className="text-xs text-gray-400">Tự động lưu</span>
         </div>
       </div>
 

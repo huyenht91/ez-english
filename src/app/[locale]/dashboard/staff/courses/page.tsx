@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 import { ArrowLeft, Save, Trash2, PlusCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -51,35 +52,29 @@ export default function StaffCoursesPage() {
   const params = useParams();
   const locale = (params?.locale as string) ?? 'vi';
   const router = useRouter();
-  const [courses, setCourses] = useState<Course[]>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('ez_courses');
-      if (saved) { try { const p = JSON.parse(saved); if (Array.isArray(p) && p.length > 0) return p; } catch {} }
-    }
-    return INITIAL;
-  });
+  const [courses, setCourses] = useState<Course[]>(INITIAL);
   const [saved, setSaved] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
-  const savedSnapshot = useRef(
-    typeof window !== 'undefined' && localStorage.getItem('ez_courses')
-      ? localStorage.getItem('ez_courses')!
-      : JSON.stringify(INITIAL)
-  );
 
   useEffect(() => {
-    setHasChanges(JSON.stringify(courses) !== savedSnapshot.current);
-  }, [courses]);
+    supabase.from('courses').select('*').order('id').then(({ data }) => {
+      if (data && data.length > 0) setCourses(data as Course[]);
+    });
+  }, []);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [addOpen, setAddOpen] = useState(false);
   const [newCourse, setNewCourse] = useState<Omit<Course, 'key'>>({
     nameVi: '', nameEn: '', descVi: '', descEn: '', levels: '', icon: '🎯',
   });
 
-  const update = (key: string, field: string, value: string) =>
+  const update = (key: string, field: string, value: string) => {
     setCourses(courses.map((c) => c.key === key ? { ...c, [field]: value } : c));
+    setHasChanges(true);
+  };
 
   const handleDelete = (key: string) => {
     setCourses(courses.filter((c) => c.key !== key));
+    setHasChanges(true);
     if (expanded === key) setExpanded(null);
   };
 
@@ -90,11 +85,16 @@ export default function StaffCoursesPage() {
     setNewCourse({ nameVi: '', nameEn: '', descVi: '', descEn: '', levels: '', icon: '🎯' });
     setAddOpen(false);
     setExpanded(key);
+    setHasChanges(true);
   };
 
-  const handleSave = () => {
-    localStorage.setItem('ez_courses', JSON.stringify(courses));
-    savedSnapshot.current = JSON.stringify(courses);
+  const handleSave = async () => {
+    await supabase.from('courses').delete().neq('id', 0);
+    await supabase.from('courses').insert(courses.map(({ ...c }) => ({
+      key: c.key, name_vi: c.nameVi, name_en: c.nameEn,
+      desc_vi: c.descVi, desc_en: c.descEn, levels: c.levels, icon: c.icon,
+    })));
+    setHasChanges(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };

@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowLeft, Trash2, PlusCircle, ChevronDown, ChevronUp, Plus, X, Save } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
 
 interface Job {
   id: number;
@@ -110,10 +111,9 @@ export default function StaffHiringPage() {
   const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem('ez_jobs');
-    if (stored) {
-      try { setJobs(JSON.parse(stored)); } catch {}
-    }
+    supabase.from('jobs').select('*').order('id').then(({ data }) => {
+      if (data && data.length > 0) setJobs(data as Job[]);
+    });
   }, []);
 
   const updateJob = (id: number, field: keyof Job, value: string | string[]) => {
@@ -135,8 +135,12 @@ export default function StaffHiringPage() {
     setHasChanges(true);
   };
 
-  const handleSave = () => {
-    localStorage.setItem('ez_jobs', JSON.stringify(jobs));
+  const handleSave = async () => {
+    await supabase.from('jobs').delete().neq('id', 0);
+    await supabase.from('jobs').insert(jobs.map((j) => ({
+      id: j.id, title: j.title, type: j.type,
+      requirements: j.requirements, benefits: j.benefits,
+    })));
     setHasChanges(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);

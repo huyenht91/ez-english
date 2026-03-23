@@ -6,8 +6,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { LogIn, Eye, EyeOff, Star, Trash2, ImagePlus, ClipboardList, Phone, Save, Pencil } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { SUPER_STARS_VI, type SuperStar, COLORS, SUPERSTARS_STORAGE_KEY } from '@/data/superstars';
+import { SUPER_STARS_VI, type SuperStar, COLORS } from '@/data/superstars';
 import ChatManager from '@/components/layout/ChatManager';
+import { supabase } from '@/lib/supabase';
 
 function LoginForm({ onLogin }: { onLogin: () => void }) {
   const [email, setEmail] = useState('');
@@ -82,13 +83,7 @@ function LoginForm({ onLogin }: { onLogin: () => void }) {
 
 function SuperStarManager() {
   const [open, setOpen] = useState(false);
-  const [stars, setStars] = useState<SuperStar[]>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem(SUPERSTARS_STORAGE_KEY);
-      if (saved) return JSON.parse(saved) as SuperStar[];
-    }
-    return SUPER_STARS_VI;
-  });
+  const [stars, setStars] = useState<SuperStar[]>(SUPER_STARS_VI);
   const [hasChanges, setHasChanges] = useState(false);
   const [saved, setSaved] = useState(false);
   const [expanded, setExpanded] = useState<number | null>(null);
@@ -98,6 +93,12 @@ function SuperStarManager() {
   const [color, setColor] = useState(COLORS[0]);
   const [preview, setPreview] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    supabase.from('superstars').select('*').order('id').then(({ data }) => {
+      if (data && data.length > 0) setStars(data as SuperStar[]);
+    });
+  }, []);
 
   const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -109,8 +110,9 @@ function SuperStarManager() {
     setHasChanges(true);
   };
 
-  const handleSave = () => {
-    localStorage.setItem(SUPERSTARS_STORAGE_KEY, JSON.stringify(stars));
+  const handleSave = async () => {
+    await supabase.from('superstars').delete().neq('id', 0);
+    await supabase.from('superstars').insert(stars.map(({ id: _id, ...s }) => s));
     setHasChanges(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
@@ -336,24 +338,22 @@ function RegistrationsManager() {
   const [open, setOpen] = useState(false);
   const [regs, setRegs] = useState<Registration[]>([]);
 
-  // Load from localStorage on mount so badge shows immediately
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem('ez_registrations') ?? '[]') as Registration[];
-    setRegs(saved);
+    supabase.from('registrations').select('*').order('created_at', { ascending: false }).then(({ data }) => {
+      if (data) setRegs(data as Registration[]);
+    });
   }, []);
 
   const handleOpen = () => setOpen(!open);
 
-  const updateStatus = (id: number, status: Registration['status']) => {
-    const updated = regs.map((r) => r.id === id ? { ...r, status } : r);
-    setRegs(updated);
-    localStorage.setItem('ez_registrations', JSON.stringify(updated));
+  const updateStatus = async (id: number, status: Registration['status']) => {
+    await supabase.from('registrations').update({ status }).eq('id', id);
+    setRegs(regs.map((r) => r.id === id ? { ...r, status } : r));
   };
 
-  const handleDelete = (id: number) => {
-    const updated = regs.filter((r) => r.id !== id);
-    setRegs(updated);
-    localStorage.setItem('ez_registrations', JSON.stringify(updated));
+  const handleDelete = async (id: number) => {
+    await supabase.from('registrations').delete().eq('id', id);
+    setRegs(regs.filter((r) => r.id !== id));
   };
 
   const newCount = regs.filter((r) => r.status === 'new').length;
@@ -441,8 +441,9 @@ function Dashboard({ locale }: { locale: string }) {
   const [newRegCount, setNewRegCount] = useState(0);
 
   useEffect(() => {
-    const regs = JSON.parse(localStorage.getItem('ez_registrations') ?? '[]') as Registration[];
-    setNewRegCount(regs.filter((r) => r.status === 'new').length);
+    supabase.from('registrations').select('id').eq('status', 'new').then(({ data }) => {
+      setNewRegCount(data?.length ?? 0);
+    });
   }, []);
 
   return (

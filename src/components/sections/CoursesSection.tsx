@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 interface Course {
   key: string;
@@ -57,13 +58,15 @@ export default function CoursesSection({ locale, title, subtitle }: { locale: st
   const [courses, setCourses] = useState<Course[]>(DEFAULT_COURSES);
 
   useEffect(() => {
-    const saved = localStorage.getItem('ez_courses');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved) as Course[];
-        if (Array.isArray(parsed) && parsed.length > 0) setCourses(parsed);
-      } catch { /* keep defaults */ }
-    }
+    supabase.from('courses').select('*').order('id').then(({ data }) => {
+      if (data && data.length > 0) {
+        setCourses(data.map((d) => ({
+          key: d.key, icon: d.icon, levels: d.levels,
+          nameVi: d.name_vi, nameEn: d.name_en,
+          descVi: d.desc_vi, descEn: d.desc_en,
+        })) as Course[]);
+      }
+    });
   }, []);
 
   const isVi = locale === 'vi';

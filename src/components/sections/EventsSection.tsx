@@ -5,21 +5,19 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { MOCK_EVENTS, TAG_COLORS, type NewsItem } from '@/data/events';
-
-const EZ_NEWS_KEY = 'ez_news';
+import { supabase } from '@/lib/supabase';
 
 export default function EventsSection({ locale, title, viewAll }: { locale: string; title: string; viewAll: string }) {
   const [items, setItems] = useState<NewsItem[]>([]);
 
   useEffect(() => {
-    const saved = localStorage.getItem(EZ_NEWS_KEY);
-    if (saved) {
-      try {
-        setItems(JSON.parse(saved));
-        return;
-      } catch {}
-    }
-    setItems(MOCK_EVENTS[locale as 'vi' | 'en'] ?? MOCK_EVENTS.vi);
+    supabase.from('news').select('*').order('sort_date', { ascending: false }).then(({ data }) => {
+      if (data && data.length > 0) {
+        setItems(data.map((d) => ({ ...d, sortDate: d.sort_date, fullContent: d.full_content })) as NewsItem[]);
+      } else {
+        setItems(MOCK_EVENTS[locale as 'vi' | 'en'] ?? MOCK_EVENTS.vi);
+      }
+    });
   }, [locale]);
 
   const latestEvents = [...items]

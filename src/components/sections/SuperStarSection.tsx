@@ -3,7 +3,8 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
-import { SUPER_STARS_VI, type SuperStar, SUPERSTARS_STORAGE_KEY } from '@/data/superstars';
+import { SUPER_STARS_VI, type SuperStar } from '@/data/superstars';
+import { supabase } from '@/lib/supabase';
 
 const CARD_GAP = 24;
 const PAUSE_MS = 4000;
@@ -194,8 +195,9 @@ export default function SuperStarSection({ locale }: { locale: string }) {
   const [stars, setStars] = useState<SuperStar[]>(SUPER_STARS_VI);
 
   useEffect(() => {
-    const saved = localStorage.getItem(SUPERSTARS_STORAGE_KEY);
-    if (saved) setStars(JSON.parse(saved) as SuperStar[]);
+    supabase.from('superstars').select('*').order('id').then(({ data }) => {
+      if (data && data.length > 0) setStars(data as SuperStar[]);
+    });
   }, []);
 
   return (

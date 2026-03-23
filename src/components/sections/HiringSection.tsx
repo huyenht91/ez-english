@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { CheckCircle, Mail } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 interface Job {
   id: number;
@@ -73,13 +74,9 @@ export default function HiringSection({ applyLabel, requirementLabel, benefitLab
   const [jobs, setJobs] = useState<Job[]>(DEFAULT_JOBS);
 
   useEffect(() => {
-    const stored = localStorage.getItem('ez_jobs');
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored) as Job[];
-        if (Array.isArray(parsed) && parsed.length > 0) setJobs(parsed);
-      } catch {}
-    }
+    supabase.from('jobs').select('*').order('id').then(({ data }) => {
+      if (data && data.length > 0) setJobs(data as Job[]);
+    });
   }, []);
 
   return (

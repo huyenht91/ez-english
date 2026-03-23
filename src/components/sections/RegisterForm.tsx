@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useLocale } from 'next-intl';
+import { supabase } from '@/lib/supabase';
 
 export default function RegisterForm() {
   const locale = useLocale();
@@ -10,18 +11,15 @@ export default function RegisterForm() {
   const [form, setForm] = useState({ name: '', phone: '', consent: false });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.consent) return;
-    const reg = {
-      id: Date.now(),
+    await supabase.from('registrations').insert({
       name: form.name,
       phone: form.phone,
       date: new Date().toLocaleDateString('vi-VN'),
       status: 'new',
-    };
-    const existing = JSON.parse(localStorage.getItem('ez_registrations') ?? '[]');
-    localStorage.setItem('ez_registrations', JSON.stringify([reg, ...existing]));
+    });
     setSubmitted(true);
   };
 
